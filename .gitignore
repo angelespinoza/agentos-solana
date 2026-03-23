@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.yarn/cache
+
+# Next.js
+.next/
+out/
+
+# Env files — NUNCA commitear
+.env
+.env.local
+.env.production
+.env*.local
+
+# Anchor / Solana
+target/
+.anchor/
+test-ledger/
+.program-id-mainnet
+
+# Keys — MUY IMPORTANTE: nunca commitear keypairs
+*.json
+!package.json
+!tsconfig.json
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Build
+dist/
+build/
