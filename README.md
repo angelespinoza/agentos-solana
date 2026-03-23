@@ -1,167 +1,85 @@
 # AgentOS ◈
-> No-Code AI Agent Platform on Solana · Powered by x402
+> No-Code AI Agent Platform on Solana · Powered by x402 · Autonomous via OpenClaw
 
-Crea, despliega y monetiza agentes de IA sin escribir una línea de código. Cada agente vive on-chain en Solana y cobra automáticamente vía x402.
+**La primera plataforma No-Code donde cualquier persona crea, deploya y monetiza agentes de IA en Solana — en menos de 5 minutos, sin escribir código.**
 
----
-
-## Demo flow
-
-```
-1. Conectar Phantom / Backpack / Solflare
-2. Builder (6 pasos) → Template · Identidad · Conocimiento · Precio · LLM · Deploy
-3. Agente queda registrado on-chain con tu wallet como owner
-4. Aparece en el Marketplace con su URL pública: /agent/{id}
-5. Cualquier persona lo consulta y paga automáticamente via x402
-6. Dashboard → stats de uso, revenue, pause/resume
-```
+🌐 **Live:** [agentos-ebon.vercel.app](https://agentos-ebon.vercel.app)  
+⛓️ **Program ID (Devnet):** `BF3gD81vZR7XMkbnNoWQxwEMRG4ieBA46KNW2o3X3Gdv`  
+🐙 **GitHub:** [github.com/angelespinoza/agentos-solana](https://github.com/angelespinoza/agentos-solana)
 
 ---
 
-## Stack
+## ¿Qué es AgentOS?
 
-| Capa | Tecnología |
-|---|---|
-| On-chain | Anchor (Rust) · Solana |
-| Frontend | Next.js 14 · TypeScript |
-| Wallet | @solana/wallet-adapter |
-| Pagos | x402 protocol · @x402/svm |
-| LLM | OpenAI · Anthropic · Groq · Together |
-| DB | Supabase (Postgres) |
-| NFT | Metaplex SDK · Helius |
-| Workers | Node.js · tsx |
-| Deploy | Vercel (frontend) · Railway (workers) |
+AgentOS es la **App Store de Agentes de IA en Solana**. Donde en lugar de apps, hay agentes que trabajan, cobran y actúan solos.
+
+```
+Problema actual:
+  Crear un agente de IA que actúe solo, cobre automáticamente y tenga
+  identidad propia requiere semanas de desarrollo y cientos de USD/mes.
+
+Solución:
+  AgentOS → Builder No-Code → Deploy on-chain → x402 cobra → OpenClaw actúa
+```
+
+### Los 4 pilares
+
+| # | Pilar | Descripción |
+|---|-------|-------------|
+| 01 | **CREAR** | Builder No-Code de 7 pasos. Sin escribir código. |
+| 02 | **DEPLOYAR** | On-chain en Solana. Identidad permanente en la blockchain. |
+| 03 | **MONETIZAR** | x402 Protocol. Cobra en USDC automáticamente por cada consulta. |
+| 04 | **AUTONOMÍA** | OpenClaw Worker. El agente actúa solo 24/7 en Twitter y Telegram. |
 
 ---
 
-## Estructura
+## Demo
+
+🎬 **Flujo completo en 3 minutos:**
 
 ```
-agentOS/
-├── programs/
-│   └── agent-registry/        # Anchor Program (Rust)
-│       └── src/lib.rs         # PDA, instrucciones, eventos
-├── app/
-│   ├── page.tsx               # Landing
-│   ├── marketplace/           # Explorar agentes activos
-│   ├── builder/               # No-code builder (6 pasos)
-│   │   ├── page.tsx
-│   │   ├── DeployModal.tsx
-│   │   └── StepLLMConfig.tsx
-│   ├── agent/[agentId]/       # Página pública del agente
-│   ├── dashboard/             # Panel del owner
-│   ├── components/
-│   │   ├── Navbar.tsx         # Con hamburger menu mobile
-│   │   ├── AgentCard.tsx
-│   │   └── AgentChatModal.tsx # Chat con flujo x402
-│   ├── api/
-│   │   ├── agent/[id]/query/  # Endpoint público del agente (POST con x402)
-│   │   ├── agents/            # CRUD de agentes
-│   │   ├── agents/[id]/status # Pause/resume (solo owner)
-│   │   ├── x402/pay/          # Construye tx de pago
-│   │   └── admin/stats/       # Revenue de plataforma
-│   └── providers/
-│       └── WalletProvider.tsx
-├── lib/
-│   ├── network.ts             # Config centralizada devnet/mainnet
-│   ├── encryption.ts          # AES-256-GCM para API Keys
-│   ├── llm-router.ts          # Router multi-proveedor LLM
-│   └── solana/client.ts       # Client TypeScript del programa
-├── workers/
-│   ├── x402-middleware.ts     # Payment gate + NFT verification
-│   └── payout-worker.ts       # Distribuye pagos al owner cada 60s
-├── supabase/
-│   └── schema.sql             # Tablas, funciones, RLS policies
-├── scripts/
-│   └── deploy-mainnet.sh      # Script seguro de deploy a mainnet
-└── tests/
-    └── agent-registry.ts      # 8 tests del Anchor program
+1. Conecta tu wallet (Phantom / Solflare)
+2. Builder → 7 pasos:
+     Template → Identidad → Conocimiento → Precio → Modelo IA → Autonomía → Deploy
+3. Agente registrado on-chain en Solana con PDA único
+4. Endpoint x402 público: POST /api/agent/{id}/query
+5. Cualquier persona lo consulta y paga en USDC automáticamente
+6. Modo autónomo: el agente publica en Twitter/Telegram sin intervención humana
 ```
+
+### Agentes en vivo (Devnet)
+
+Los agentes deployados aparecen en el [Marketplace](https://agentos-ebon.vercel.app/marketplace) con sus endpoints públicos y stats de uso en tiempo real.
 
 ---
 
-## Setup rápido
+## Autonomía con OpenClaw
 
-### 1. Prerrequisitos
+El diferenciador clave de AgentOS es que los agentes **no solo responden** — actúan solos.
 
-```bash
-# Rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-# Anchor CLI
-cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
-avm install latest && avm use latest
-
-# Solana CLI
-sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
-
-# Node
-node --version  # >= 18
+```
+AgentOS Builder (configuras trigger + acción)
+    ↓
+Solana On-Chain (identidad del agente permanente)
+    ↓
+OpenClaw Worker (loop 24/7 en VPS, cada X minutos)
+    ↓
+Twitter / Telegram (publica automáticamente)
 ```
 
-### 2. Variables de entorno
+### Triggers disponibles
+- ⏱ **Intervalo** — cada X minutos
+- 🕐 **Schedule** — a una hora específica del día
+- 📈 **Price Alert** — cuando un token DeFi sube/baja X%
 
-```bash
-cp .env.example .env.local
-# Llenar: SUPABASE_URL, OPENAI_API_KEY, PLATFORM_WALLET, ENCRYPTION_SECRET
-```
+### Acciones disponibles
+- 🐦 **Twitter** — tuitea desde la cuenta del proyecto
+- ✈️ **Telegram** — envía mensaje al Chat ID del usuario
 
-### 3. Base de datos
-
-```bash
-# En el SQL Editor de tu proyecto Supabase:
-# Ejecutar supabase/schema.sql
-```
-
-### 4. Anchor Program (devnet)
-
-```bash
-# Configurar wallet de deploy
-solana config set --url devnet
-solana airdrop 2  # SOL de prueba en devnet
-
-# Build + deploy
-anchor build
-anchor deploy --provider.cluster devnet
-
-# Copiar el Program ID al .env
-# NEXT_PUBLIC_PROGRAM_ID=<program_id_del_output>
-```
-
-### 5. Frontend
-
-```bash
-yarn install
-yarn dev
-# → http://localhost:3000
-```
-
-### 6. Worker de pagos (terminal separada)
-
-```bash
-yarn worker:payout
-# → Procesa pagos pendientes al owner cada 60s
-```
-
----
-
-## Anchor Program
-
-### PDA del agente
-```
-seeds = ["agent", owner.publicKey, agentId]
-```
-
-### Instrucciones
-
-| Instrucción | Signer | Descripción |
-|---|---|---|
-| `create_agent` | Owner | Registra el agente on-chain |
-| `set_status` | Owner | Pausa / activa |
-| `update_price` | Owner | Cambia precio x402 |
-| `update_config` | Owner | Nuevo system prompt (hash) |
-| `record_payment` | Worker | Registra pago recibido |
-| `close_agent` | Owner | Cierra y recupera rent |
+### Casos de uso demostrados
+- **SOL Alert Bot** — monitorea precio de Solana vía CoinGecko y tuitea alertas cada 5 min
+- **DeFi Newsletter** — genera y envía análisis de mercado a Telegram en schedule diario
+- **Agente de Contenido** — publica tweets informativos sobre Web3 en horarios programados
 
 ---
 
@@ -175,89 +93,177 @@ Usuario → POST /api/agent/{id}/query
         ← Facilitador Coinbase verifica on-chain
         ← 200 OK + respuesta del agente (streaming SSE)
 
-Split automático cada 60s (payout-worker):
+Split automático:
   Total pagado → PLATFORM_WALLET (escrow)
-    ├── 5% → AgentOS (plataforma)
+    ├── 5%  → AgentOS (plataforma)
     └── 95% → Owner del agente
 ```
 
----
-
-## Modelo de API Keys (híbrido)
-
-| Modo | Quién paga los tokens | Precio mínimo | Cómo |
-|---|---|---|---|
-| Key propia | El owner del agente | Libre | Se encripta AES-256 en Supabase |
-| Key AgentOS | AgentOS (con markup 3x) | Calculado por proveedor | NULL en DB |
-
-Proveedores soportados: OpenAI · Anthropic · Groq · Together AI
+**¿Por qué x402 + Solana?**
+- `$0.00025` por transacción — micropagos viables
+- `400ms` de finalidad — respuesta instantánea
+- Sin cuentas, sin suscripciones, sin intermediarios
+- Facilitador oficial de Coinbase incluido
 
 ---
 
-## Tipos de acceso
+## Stack
 
-| Tipo | Verificación |
-|---|---|
-| Público | Cualquiera con wallet puede consultar |
-| NFT-Gated | Verificación on-chain de ownership via Metaplex |
+| Capa | Tecnología |
+|------|-----------|
+| On-chain | Anchor (Rust) · Solana Devnet |
+| Pagos | x402 Protocol · @x402/svm · Coinbase Facilitator |
+| Frontend | Next.js 14 · TypeScript · Vercel |
+| Wallet | @solana/wallet-adapter (Phantom, Solflare) |
+| IA / LLM | OpenAI GPT-4o-mini · Anthropic Claude · Groq · Together AI |
+| DB | Supabase (Postgres + RLS) |
+| Autonomía | OpenClaw Worker · Twitter API v2 · Telegram Bot API |
+| Seguridad | AES-256-GCM para API Keys |
+| Infra | Vercel (frontend) · Hostinger VPS (worker) |
 
 ---
 
-## Deploy a mainnet
+## Estructura del proyecto
 
-```bash
-chmod +x scripts/deploy-mainnet.sh
-./scripts/deploy-mainnet.sh
-# El script guía paso a paso con validaciones de seguridad
-# Costo estimado: ~2-3 SOL para el rent del programa
+```
+agentOS/
+├── programs/
+│   └── agent-registry/        # Anchor Program (Rust)
+│       └── src/lib.rs
+├── app/
+│   ├── page.tsx               # Landing
+│   ├── marketplace/           # Explorar agentes activos
+│   ├── builder/               # No-code builder (7 pasos)
+│   │   ├── page.tsx
+│   │   ├── helpers.ts         # buildSystemPrompt
+│   │   ├── DeployModal.tsx
+│   │   ├── StepLLMConfig.tsx
+│   │   └── StepAutonomy.tsx   # Configuración de autonomía
+│   ├── agent/[agentId]/       # Página pública del agente
+│   ├── dashboard/             # Panel del owner
+│   ├── components/
+│   │   ├── Navbar.tsx
+│   │   ├── AgentCard.tsx
+│   │   ├── AgentChatModal.tsx
+│   │   └── WalletButton.tsx
+│   └── api/
+│       ├── agent/[id]/query/  # Endpoint x402 del agente
+│       ├── agents/            # CRUD
+│       ├── agents/[id]/status # Pause/resume
+│       ├── x402/pay/          # Construye tx de pago
+│       └── admin/stats/       # Revenue de plataforma
+├── lib/
+│   ├── network.ts             # Config devnet/mainnet
+│   ├── encryption.ts          # AES-256-GCM
+│   ├── llm-router.ts          # Multi-proveedor LLM
+│   ├── x402-middleware.ts     # Payment gate + NFT verification
+│   └── solana/client.ts
+├── workers/
+│   └── payout-worker.ts       # Distribuye pagos al owner
+└── supabase/
+    └── schema.sql
 ```
 
-Cambiar a mainnet en `.env`:
+---
+
+## Setup rápido
+
+### Prerrequisitos
+
 ```bash
-NEXT_PUBLIC_SOLANA_NETWORK=mainnet-beta
-USDC_MINT=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+# Rust + Anchor
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
+avm install latest && avm use latest
+
+# Solana CLI
+sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
+
+# Node >= 18
+node --version
+```
+
+### Variables de entorno
+
+```bash
+cp .env.example .env.local
+```
+
+```env
+NEXT_PUBLIC_SOLANA_NETWORK=devnet
+NEXT_PUBLIC_PROGRAM_ID=BF3gD81vZR7XMkbnNoWQxwEMRG4ieBA46KNW2o3X3Gdv
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_URL=your_supabase_url
+SUPABASE_SERVICE_KEY=your_service_key
+OPENAI_API_KEY=sk-...
+PLATFORM_WALLET=your_wallet_address
+PLATFORM_KEYPAIR_BS58=your_keypair
+ENCRYPTION_SECRET=min_32_chars_secret
+ADMIN_SECRET=your_admin_secret
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+```
+
+### Base de datos
+
+```bash
+# Ejecutar en el SQL Editor de Supabase:
+supabase/schema.sql
+```
+
+### Anchor Program
+
+```bash
+solana config set --url devnet
+solana airdrop 2
+anchor build
+anchor deploy --provider.cluster devnet
+```
+
+### Frontend
+
+```bash
+yarn install
+yarn dev
+# → http://localhost:3000
+```
+
+### Worker autónomo (OpenClaw VPS)
+
+```bash
+cd openclaw-worker
+npm install @supabase/supabase-js twitter-api-v2
+node worker.js
+# → Ejecuta agentes autónomos cada 60 segundos
 ```
 
 ---
 
-## Admin API
+## Modelo de API Keys
 
-```bash
-# Stats de la plataforma
-curl /api/admin/stats \
-  -H "X-Admin-Secret: TU_ADMIN_SECRET"
+| Modo | Quién paga los tokens | Precio mínimo |
+|------|-----------------------|---------------|
+| Key propia | El owner del agente | Libre |
+| Key AgentOS | AgentOS (markup 3x) | Calculado por proveedor |
 
-# Respuesta:
-{
-  "platform": {
-    "totalAgents": 42,
-    "totalVolume": "127.3400",
-    "platformRevenue": "6.3670",   # 5% de todo
-    "ownerPayouts": "120.9730",
-    "feeBps": 500
-  },
-  "topAgents": [...],
-  "revenueByDay": [...]
-}
-```
+Proveedores: **OpenAI · Anthropic · Groq · Together AI**
 
 ---
 
-## Tests
+## Anchor Program — Instrucciones
 
-```bash
-# Tests del Anchor program (8 casos)
-anchor test
+| Instrucción | Signer | Descripción |
+|-------------|--------|-------------|
+| `create_agent` | Owner | Registra el agente on-chain |
+| `set_status` | Owner | Pausa / activa |
+| `update_price` | Owner | Cambia precio x402 |
+| `update_config` | Owner | Nuevo system prompt (hash) |
+| `record_payment` | Worker | Registra pago recibido |
+| `close_agent` | Owner | Cierra y recupera rent |
 
-# Casos cubiertos:
-# ✅ Crear agente
-# ✅ Actualizar precio
-# ✅ Actualizar config hash
-# ✅ Registrar pago
-# ✅ Pausar agente
-# ✅ Reactivar agente
-# ❌ Non-owner no puede pausar
-# ❌ No acepta nombres vacíos
+**PDA del agente:**
+```
+seeds = ["agent", owner.publicKey, agentId]
 ```
 
 ---
@@ -265,17 +271,19 @@ anchor test
 ## Roadmap post-hackathon
 
 - [ ] RAG con knowledge base (PDFs, URLs, Notion)
-- [ ] Templates adicionales (DeFi, Contenido)
 - [ ] Agent-to-agent payments (agentes que se pagan entre sí)
 - [ ] Marketplace de templates de terceros
-- [ ] Dashboard de analytics avanzado
-- [ ] Mobile app (React Native)
+- [ ] Mobile app
 - [ ] Deploy a mainnet
 
 ---
 
-## Equipo
+## Construido en
 
-Construido en el hackathon de Solana · Marzo 2026
+**Solana Hackathon — Marzo 2026**
 
-**AgentOS** — [agentos.xyz](https://agentos.xyz) · hola@agentos.xyz
+Stack: Anchor · Next.js · x402 · OpenClaw · Supabase · OpenAI
+
+---
+
+*AgentOS — Built on Solana · Powered by x402 · Autonomous via OpenClaw*
